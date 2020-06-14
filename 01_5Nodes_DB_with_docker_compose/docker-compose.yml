@@ -1,0 +1,64 @@
+version: "3.2"
+services:
+   
+    cockroach_node_1:
+        container_name: cockroach_node_1
+        image: cockroachdb/cockroach:latest
+        volumes:
+           - ./data/cockroach_node_1:/cockroach/cockroach-data
+        command: start --insecure
+        ports:
+           - "26257:26257"
+           - "8080:8080"
+        networks:
+            cockroachdb_net:
+                aliases:
+                   - cockroach_node_1
+
+    cockroach_node_2:
+        container_name: cockroach_node_2
+        image: cockroachdb/cockroach:latest
+        volumes:
+           - ./data/cockroach_node_2:/cockroach/cockroach-data
+        command: start --insecure --join=cockroach_node_1,cockroach_node_2,cockroach_node_3, cockroach_node_4, cockroach_node_5
+        networks:
+            cockroachdb_net:
+                aliases:
+                   - cockroach_node_2
+
+    cockroach_node_3:
+        container_name: cockroach_node_3
+        image: cockroachdb/cockroach:latest
+        volumes:
+           - ./data/cockroach_node_3:/cockroach/cockroach-data
+        command: start --insecure --join=cockroach_node_1,cockroach_node_2,cockroach_node_3, cockroach_node_4, cockroach_node_5
+        networks:
+            cockroachdb_net:
+                aliases:
+                   - cockroach_node_3
+
+    cockroach_node_4:
+        container_name: cockroach_node_4
+        image: cockroachdb/cockroach:latest
+        volumes:
+           - ./data/cockroach_node_4:/cockroach/cockroach-data
+        command: start --insecure --join=cockroach_node_1,cockroach_node_2,cockroach_node_3, cockroach_node_4, cockroach_node_5
+        networks:
+            cockroachdb_net:
+                aliases:
+                   - cockroach_node_4
+
+    cockroach_node_5:
+        container_name: cockroach_node_5
+        image: cockroachdb/cockroach:latest
+        volumes:
+           - ./data/cockroach_node_5:/cockroach/cockroach-data
+        command: start --insecure --join=cockroach_node_1,cockroach_node_2,cockroach_node_3, cockroach_node_4, cockroach_node_5
+        networks:
+            cockroachdb_net:
+                aliases:
+                   - cockroach_node_5
+
+networks:
+    cockroachdb_net:
+        driver: bridge
